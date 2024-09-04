@@ -1,0 +1,37 @@
+internal stages:
+	-------------------
+CREATE TABLE LOAN_PAYMENT_vitech (
+  Loan_ID STRING,
+  loan_status STRING,
+  Principal STRING,
+  terms STRING,
+  effective_date STRING,
+  due_date STRING,
+  paid_off_time STRING,
+  past_due_days STRING,
+  age STRING,
+  education STRING,
+  Gender STRING);
+
+//create stage 
+CREATE OR REPLACE STAGE MY_INTER_STAGE;
+
+//load data into stage 
+put file://D:\files\data.csv @MY_INTER_STAGE;
+
+//describe satges 
+list @MY_INTER_STAGE
+
+//copy data from stages 
+copy into LOAN_PAYMENT_vitech 
+      from @MY_INTER_STAGE
+file_format = (type = csv 
+                   field_delimiter = ',' 
+                   skip_header=1);
+
+select * from LOAN_PAYMENT_vitech;
+
+
+
+drop table LOAN_PAYMENT_vitech
+
