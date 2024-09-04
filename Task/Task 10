@@ -1,0 +1,15 @@
+select 
+  LOAN_ID
+,LOAN_STATUS
+,PRINCIPAL
+,TERMS
+,EFFECTIVE_DATE
+,DUE_DATE
+,PAID_OFF_TIME
+,PAST_DUE_DAYS
+,EDUCATION
+,GENDER
+,AGE
+,case when gender='male' and age > 21 then 'Major' else 'Minor' end  as "M_Status"
+,case when gender='female' and age > 18 then 'Major' else 'Minor' end  as "F_Status"
+from LOAN_PAYMENT  order by gender asc 
