@@ -1,0 +1,170 @@
+ AWS -->  Stage    --> Load (copy command)   --> copy options   (Table)
+
+
+
+          snowflake    
+		  
+		  
+		  Creata a table with Variant DataType ---> 
+		  
+		  
+		{
+  "city": "Bakersfield",
+  "first_name": "Portia",
+  "gender": "Male",
+  "id": 1,
+  "job": {
+    "salary": 32000,
+    "title": "Financial Analyst"
+  },
+  "last_name": "Gioani",
+  "prev_company": [],
+  "spoken_languages": [
+    {
+      "language": "Kazakh",
+      "level": "Advanced"
+    },
+    {
+      "language": "Lao",
+      "level": "Basic"
+    }
+  ]
+}  
+		
+spoken_languages[0]		
+		  
+		  -------------------
+		  
+		  {
+  "__index_level_0__": 7,
+  "cat_id": "HOBBIES",
+  "d": 489,
+  "date": 1338422400000000,
+  "dept_id": "HOBBIES_1",
+  "id": "HOBBIES_1_008_CA_1_evaluation",
+  "item_id": "HOBBIES_1_008",
+  "state_id": "CA",
+  "store_id": "CA_1",
+  "value": 12
+}
+
+---------------------------------
+// First step: Load Raw JSON
+
+CREATE OR REPLACE stage MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE
+     url='s3://bucketsnowflake-jsondemo';
+
+
+list @MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE;
+
+create schema FILE_FORMATS;
+
+CREATE OR REPLACE file format MANAGE_DB.FILE_FORMATS.JSONFORMAT
+    TYPE = JSON;
+    
+    
+CREATE OR REPLACE table OUR_FIRST_DB.PUBLIC.JSON_RAW (
+    raw_file variant);
+    
+COPY INTO OUR_FIRST_DB.PUBLIC.JSON_RAW
+    FROM @MANAGE_DB.EXTERNAL_STAGES.JSONSTAGE
+    file_format= MANAGE_DB.FILE_FORMATS.JSONFORMAT
+    files = ('HR_data.json');
+    
+   
+SELECT * FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+
+SELECT $1:city ,
+       $1:first_name,
+       $1:gender
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+SELECT raw_file:city :: String as city,
+       raw_file:first_name :: String as first_name,
+      raw_file:gender :: String as gender,
+      raw_file:job.salary :: int as salary,
+      raw_file:job.title :: string as title,
+      raw_file:spoken_languages[0].language	
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW;
+
+
+
+
+
+
+create or replace table hr_data as (
+
+SELECT raw_file:city :: String as city,
+       raw_file:first_name :: String as first_name,
+      raw_file:gender :: String as gender,
+      raw_file:job.salary :: int as salary,
+      raw_file:job.title :: string as title
+FROM OUR_FIRST_DB.PUBLIC.JSON_RAW
+
+)
+
+
+
+select * from hr_data;
+
+
+---------------------------------------
+
+
+    
+CREATE OR REPLACE FILE FORMAT MANAGE_DB.FILE_FORMATS.PARQUET_FORMAT
+    TYPE = 'parquet';
+
+CREATE OR REPLACE STAGE MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE
+    url = 's3://snowflakeparquetdemo'   
+    FILE_FORMAT = MANAGE_DB.FILE_FORMATS.PARQUET_FORMAT;
+    
+
+list @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE ;
+
+
+------------------------------ELT -----------------
+
+CREATE OR REPLACE table OUR_FIRST_DB.PUBLIC.parquest_RAW (
+    raw_file variant);
+
+COPY INTO OUR_FIRST_DB.PUBLIC.parquest_RAW
+    FROM @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE 
+
+
+select * from OUR_FIRST_DB.PUBLIC.parquest_RAW
+
+
+select top 5  * from OUR_FIRST_DB.PUBLIC.parquest_RAW
+
+
+select $1:cat_id from OUR_FIRST_DB.PUBLIC.parquest_RAW
+
+-----------------------------ETL-----------------------------------
+
+
+select $1:cat_id :: string as cat_id ,
+       $1:item_id :: string as item_id,
+       $1:store_id :: string as store_id
+from @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE
+
+
+
+create or replace table store_dtls as (
+select $1:cat_id :: string as cat_id ,
+       $1:item_id :: string as item_id,
+       $1:store_id :: string as store_id
+from @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE
+)
+
+    
+select * from store_dtls;
+
+    
