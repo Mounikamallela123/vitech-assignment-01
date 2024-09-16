@@ -1,0 +1,189 @@
+1) Display the
+details of all employees 
+
+Ans: select * from employees;
+
+
+
+
+
+2) Display the depart information from
+department table 
+
+
+
+ Ans: select * from department ;
+
+
+
+3) Display the name and job for all the
+employees 
+
+
+Ans: select name , job from   employees;
+
+
+
+
+4) Display the name and salary  for all the employees 
+
+
+
+ Ans: select name , salary from  employees;
+
+
+
+5) Display the employee no and
+totalsalary  for all the employees 
+
+
+
+ Ans: select employee no, totalsalary from  employees;
+
+
+
+6) Display the employee name and annual
+salary for all employees. 
+
+
+Ans: select employee name , annual salary from   employees;
+
+
+
+
+7) Display the names of all the employees
+who are working in depart number 10. 
+
+
+Ans: select names from  employees 
+
+   where depart number =10;
+
+
+
+8) Display the names of all the employees
+who are working as clerks and  drawing
+a salary more than 3000. 
+
+Ans: select name from employees
+
+    where job='clerks' and salary>=3000;
+
+
+
+
+9) Display the employee number and
+name  who are earning comman salalry
+
+
+Ans: select number, name from employee
+
+     where salary ='same';
+
+
+
+10) Display the employee number and
+name  who do not earn any common salary
+
+
+
+ Ans: select number , name from employee
+
+       where salary = 'not same';
+
+
+11) Display the names of employees who
+are working as clerks, salesman or 
+analyst and drawing a salary more than 3000. 
+
+Ans : select names from employees 
+
+      where job = 'clerks' and 'salesman' or 'analyst'
+
+          and salary>=3000;
+
+
+12) Display the names of the employees
+who are working in the company for  the
+past 5 years; 
+
+Ans: select name from employees
+
+     where start_ date <=cur date() - interval 5 year;
+
+
+
+
+13) Display the list of employees who
+have joined the company before 
+30-JUN-90 or after 31-DEC-90. 
+
+Ans: select * from employees 
+
+     where join date < '90-jun-30'
+
+     or join date > '90-dec-31';
+
+
+14) Display current Date. 
+
+
+Ans: select current date();
+
+
+
+
+15) Display the list of all users in your
+database (use catalog table). 
+
+
+Ans : select username from dba _ users;
+
+
+
+16) Display the names of all tables from
+current user; 
+
+
+Ans : select tables names from current user;
+
+
+
+
+17) Display the name of the current
+user. 
+
+Ans: select name from current user;
+
+
+
+
+
+18) Display the names of employees
+working in depart number 10 or 20 or 40 
+or employees working as CLERKS,SALESMAN or ANALYST. 
+
+
+Ans: select names from employees
+
+    where depart number = 10 or 20 or 40
+
+    or job = 'CLERKS', 'SALESMAN' or 'ANALYST';
+
+19) Display the names of employees whose
+name starts with alaphabet S. 
+
+Ans : select names from employees
+
+      where name like 's%';
+
+
+
+20) Display the Employee names for
+employees whose name ends with alaphabet S.
+
+
+
+Ans: select Employee names from employees 
+
+     where name like '__%s';
