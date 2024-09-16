@@ -1,0 +1,304 @@
+21) Display the
+names of employees whose names have second alphabet A in  their names. 
+
+Ans: select names from employees 
+
+     where names like '_A%';   
+
+
+
+
+22) select the names of the employee
+whose names is exactly five characters 
+in length. 
+
+Ans: select names from employee
+
+    where length = 5;
+
+
+
+
+
+
+
+
+23) Display the names of the employee who
+are not working as MANAGERS. 
+
+
+Ans: select names from employee 
+
+  where job is not 'MANAGERS';
+
+
+24) Display the names of the employee who
+are not working as SALESMAN OR  CLERK
+OR ANALYST. 
+
+
+Ans: select names from employee 
+
+     where job is not 'SALESMAN' OR 'CLERK' OR 'ANALYST'; 
+
+
+25) Display all rows from emp table.The
+system should wait after every  screen
+full of informaction. 
+
+Ans: select * from emp ;
+
+
+
+
+
+26) Display the total number of employee
+working in the company. 
+
+Ans: select number,count(*) from employee group by number;
+
+
+
+
+
+27) Display the total salary beiging paid
+to all employees. 
+
+Ans: select salary as total salary from employees;
+
+
+
+
+
+28) Display the maximum salary from emp
+table. 
+
+
+Ans: select max(salary) from emp;
+
+
+
+
+29) Display the minimum salary from emp
+table. 
+
+
+Ans: select min(salary) from emp;
+
+
+
+
+30) Display the average salary from emp
+table. 
+
+
+Ans: select avg(salary) from emp;
+
+
+
+
+31) Display the maximum salary being paid
+to CLERK. 
+
+Ans: select max(salary) from emp 
+
+     where job='clerk';
+
+
+
+
+32) Display the maximum salary being paid
+to depart number 20. 
+
+Ans: select max(salary) from emp
+
+     where depart number = 20;
+
+
+
+
+33) Display the minimum salary being paid
+to any SALESMAN. 
+
+
+Ans: select min(salary)  from emp 
+
+    where job='salesman';
+
+
+
+34) Display the average salary drawn by
+MANAGERS. 
+
+Ans: select avg(salary) from emp 
+
+     where job ='MANAGERS';
+
+
+
+
+35) Display the total salary drawn by
+ANALYST working in depart number 40. 
+
+Ans: select salary as total salary from emp
+
+      where job = 'ANALYST' and depart number = 40;
+
+
+
+
+36) Display the names of the employee in
+order of salary i.e the name of  the
+employee earning lowest salary should appear first. 
+
+
+Ans: select names from the employee 
+
+     order by salary ascen ;
+
+
+37) Display the names of the employee in
+descending order of salary. 
+
+
+Ans: select names from employee 
+
+     order  by  salary desc;
+
+
+38) Display the names of the employee in
+order of employee name. 
+
+Ans : select names from employees 
+
+      order by names; 
+
+
+
+39) Display empno,ename,deptno,sal sort
+the output first base on name and 
+within name by deptno and with in deptno by sal. 
+
+Ans: select emp no, emp name , dept no, salary from emp
+
+    order by emp name , dept no ,salary ;
+
+
+
+40) Display the name of the employee
+along with their annual salary(sal*12).The name of the employee earning
+highest annual salary should apper first. 
+
+
+Ans: select name, salary *12 as annual salary from employee
+
+     order by annual salary desc;
+
+
+41) Display name,salary,hra,pf,da,total
+salary for each employee. The  output
+should be in the order of total salary,hra 15% of salary,da 10% of salary,pf
+5%  salary,total salary will
+be(salary+hra+da)-pf. 
+
+Ans: select name , salary ,
+
+     salary * 0.15 as hra ,
+     salary * o.05 as pf,
+     salary *0.10 as da,, 
+     (salary + (salary * 0.15) + (salary * 0.10))-(salary*0.005) as total _ salary
+      from emp 
+      order by total salary desc,
+      hra desc,
+      da desc,
+      pf desc;
+
+
+
+
+42) Display depart numbers and total
+number of employees working in each 
+department. 
+
+
+Ans: select dept no , count(*) as total employees from emp
+
+     group by dept no;           
+
+
+
+43) Display the various jobs and total
+number of employees within each job 
+group. 
+
+
+Ans: select jobs ,count(*) as total employees from emp 
+
+    group by jobs;
+
+
+
+44) Display the depart numbers and total
+salary for each department. 
+
+Ans: select depart numbers, sum(salary) as total salary from emp 
+
+    group by depart numbers;
+
+
+
+45) Display the depart numbers and max
+salary for each department. 
+
+Ans: select depart numbers, max(salary) from emp
+
+     group by depart numbers;
+
+
+
+46) Display the various jobs and total
+salary for each job 
+
+
+Ans: select jobs , salary as total salary  from emp
+
+     group by job;
+
+
+47) Display the various jobs and total
+salary for each job 
+
+
+Ans: select jobs ,salary as total salary from emp 
+
+     group by job;
+
+
+48) Display the depart numbers with more
+than three employees in each dept. 
+
+
+Ans: select depart numbers from emp group by depart numbers 
+
+     having count(*) > 3;
+
+
+49) Display the various jobs along with
+total salary for each of the jobs 
+Where total salary is greater than 40000. 
+
+Ans: select jobs, salary as total salary from emp 
+
+     group by jobs having salary>40000
+
+
+
+50) Display the various jobs along with
+total number of employees in each  job.
+The output should contain only those jobs with more than three
+employees.
+
+Ans: select jobs, count(*) as total employees from emp
+
+     group by jobs having count(*) > 3;
+
