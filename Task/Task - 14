@@ -1,0 +1,32 @@
+select $1:cat_id :: string as cat_id ,
+       $1:item_id :: string as item_id,
+       $1:store_id :: string as store_id,
+       $1:date:: varchar(20) as date,
+       $1:dept_id :: string as dept_id,
+       $1:d :: int as d,
+       $1:value :: string as value,
+       $1:state_id :: string as state_id,
+       $1:__index_level_0__ :: int as __index_level_0__
+
+from @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE
+
+
+
+create or replace table store_dtls as (
+select $1:cat_id :: string as cat_id ,
+       $1:item_id :: string as item_id,
+       $1:store_id :: string as store_id,
+        $1:date:: varchar(20) as date,
+       $1:dept_id :: string as dept_id,
+       $1:d :: int as d,
+       $1:value :: string as value,
+       $1:state_id :: string as state_id,
+       $1:__index_level_0__ :: int as __index_level_0__
+
+from @MANAGE_DB.EXTERNAL_STAGES.PARQUETSTAGE
+)
+
+    
+select * from store_dtls;
+
+
