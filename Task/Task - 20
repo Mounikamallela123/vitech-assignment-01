@@ -1,0 +1,58 @@
+CREATE or replace DATABASE MANAGER;
+
+CREATE OR REPLACE TEMPORARY TABLE EMPLOYEES (EMP_ID INT,NAME STRING,
+                                  AGE INT,SALARY INT);
+
+
+INSERT INTO EMPLOYEES VALUES (1,'MOUNIKA',20,30000),
+                             (2,'PAVAN',21,35000),
+                             (3,'RAVI',21,35000),
+                             (4,'RAJU',22,40000),
+                             (5,'RANI',23,35000),
+                             (6,'PRAVALIKA',19,20000),
+                             (7,'HITESH',20,25000),
+                             (8,'RAMYA',25,35000),
+                             (9,'SUBBU',24,45000),
+                             (10,'VANI',21,35000);
+
+
+SELECT * FROM EMPLOYEES;
+
+CREATE DATABASE EMPLOYEES;
+
+
+
+
+
+// temporary table cannot be cloned to permanent table
+
+CREATE OR REPLACE   TABLE EMPLOYEES_CLONE   --- TEMP
+  CLONE EMPLOYEES ---- TEMP
+
+ SELECT * FROM MANAGER.PUBLIC.EMPLOYEES_CLONE;
+
+
+  
+//temporary table can be cloned to temporary table
+
+CREATE OR REPLACE TEMPORARY TABLE MANAGER.PUBLIC. EMPLOYEES_TEMPORARY_CLONE
+  CLONE EMPLOYEES
+
+
+SELECT * FROM MANAGER.PUBLIC.EMPLOYEES_TEMPORARY_CLONE;
+
+
+
+
+//temporary table can be cloned to transient table
+
+CREATE  TRANSIENT TABLE MANAGER.PUBLIC.EMPLOYEES_TRANSIENT_CLONE
+  CLONE EMPLOYEES; ---- EXISTING (TEMP)
+
+  
+DROP TABLE EMPLOYEES_TRANSIENT_CLONE;
+  
+
+SELECT * FROM MANAGER.PUBLIC.EMPLOYEES_TRANSIENT_CLONE;
+
+SHOW TABLES;
