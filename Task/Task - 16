@@ -1,0 +1,52 @@
+create or replace storage integration s3_int
+  TYPE = EXTERNAL_STAGE
+  STORAGE_PROVIDER = S3
+  ENABLED = TRUE 
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::050752629258:role/snow-s3-access'
+  STORAGE_ALLOWED_LOCATIONS = ('s3://snow-emp-test-data/json/')
+   COMMENT = 'This is for S3 integration' 
+   
+   
+// See storage integration properties to fetch external_id so we can update it in S3
+DESC integration s3_int;
+
+
+
+CREATE OR REPLACE table MANAGE_DB.PUBLIC.musical_instruments (raw_file
+     variant);
+
+    select* from musical_instruments;
+
+desc table  MANAGE_DB.PUBLIC. musical_instruments;
+
+CREATE OR REPLACE stage MANAGE_DB.EXTERNAL_STAGES.musical_instruments
+     url='s3://snow-emp-test-data/json/'
+     STORAGE_INTEGRATION = s3_int;
+
+     CREATE OR REPLACE FILE FORMAT MANAGE_DB.FILE_FORMATS.musical_instruments
+    TYPE = 'json';
+
+    create or replace schema FILE_FORMATS;
+
+    list @MANAGE_DB.external_stages.musical_instruments;
+
+     select * from MANAGE_DB.PUBLIC.musical_instruments ;  
+
+
+COPY INTO MANAGE_DB.PUBLIC.musical_instruments
+    FROM @MANAGE_DB.EXTERNAL_STAGES.musical_instruments
+    FILE_FORMAT=MANAGE_DB.FILE_FORMATS.musical_instruments
+    files= ('Musical_Instruments.json.json');
+
+
+SELECT raw_file:asin :: string as asin,
+       raw_file:helpful :: string  as helpful,
+      raw_file:overall :: String as overall,
+      raw_file:reviewText :: string  as reviewText,
+      raw_file:reviewerID :: string as reviewerID,
+      raw_file:reviewerName :: string as reviewerName,
+      raw_file:summary :: string as summary,
+      raw_file:unixReviewTime :: int  as unixReviewTime,
+      
+FROM MANAGE_DB.PUBLIC.musical_instruments;
+
